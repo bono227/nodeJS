@@ -3,18 +3,21 @@ const Task = require("../../models/task");
 
 const getSingleTask = async (request, response) => {
   const { id } = request.params;
-  console.log(`Received request for task with id: ${id}`);
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return response.status(400).json({ message: "Invalid task id" });
   }
+
   try {
     const task = await Task.findById(id);
+
     if (!task) {
       return response.status(404).json({ message: "Task not found" });
     }
+
+    response.status(200).json(task);
   } catch (error) {
-    response.status(500).json({ message: error.message });
+    return response.status(500).json({ message: error.message });
   }
 };
 
