@@ -4,7 +4,7 @@ const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized, sign in" });
   }
 
   const token = authorization.replace("Bearer ", "");
@@ -16,7 +16,7 @@ const authMiddleware = (req, res, next) => {
     req.user = { id };
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Invalid token" });
+    return res.status(401).json({ message: "Invalid token hahah" });
   }
 };
 
