@@ -1,5 +1,6 @@
 const bcryct = require("bcrypt");
 const User = require("../../models/auth");
+const { createToken } = require("../../utils");
 
 const signIn = async (req, res) => {
   const { email, password } = req.body;
@@ -22,7 +23,16 @@ const signIn = async (req, res) => {
     return res.status(400).json({ message: "Invalid credentials" });
   }
 
-  return res.status(200).json(user);
+  const token = createToken(user._id);
+
+  return res.status(200).json({
+    token,
+    user: {
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+    },
+  });
 };
 
 module.exports = { signIn };

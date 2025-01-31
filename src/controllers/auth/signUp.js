@@ -39,7 +39,14 @@ const signUp = async (req, res) => {
 
     const token = createToken(newUser._id);
 
-    return res.status(201).json({ token, user: newUser });
+    return res.status(201).json({
+      token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
